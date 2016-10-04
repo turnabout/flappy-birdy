@@ -6,7 +6,7 @@ A simple Flappy Bird clone, made using the HTML5 <canvas> element with Javascrip
 
 ## Play
 
-[#](Play it here)
+[Play it here](kevinpageau.com/flappy-birdy)
 
 
 
