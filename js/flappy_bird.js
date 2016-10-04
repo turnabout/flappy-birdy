@@ -169,8 +169,7 @@ var imageNames = {
 // Object containing every images in the game
 var ImageRepository = {};
 
-function loadImages(sources) 
-{
+function loadImages(sources) {
 	var loadedImages = 0;
 	var numImages = 0;
 	
@@ -228,8 +227,7 @@ var MusicRepository = {
 }
 
 // Lower the volume of everything in the Music Repository
-for(var song in MusicRepository)
-{
+for(var song in MusicRepository) {
 	MusicRepository[song].volume = 0.4;
 }
 
@@ -239,11 +237,10 @@ var SoundRepository = {
 	flap : new Audio("audio/flap.wav"),
 }
 
-SoundRepository.flap.volume = 0.5;
+SoundRepository.flap.volume = 0.3;
 
 // Function to play a sound only if it's not already playing
-function playIfNotPlaying(sound)
-{
+function playIfNotPlaying(sound) {
 	if(!sound.playing)
 	{
 		sound.play();
@@ -251,16 +248,14 @@ function playIfNotPlaying(sound)
 }
 
 // Function to play a sound repeatedly
-function playRepeatedly(sound)
-{
+function playRepeatedly(sound) {
 	sound.src = sound.src;
 	sound.play();
 }
 
 
 // Game states enumeration
-var GameStates = 
-{
+var GameStates = {
 	titleScreen: 1,
 	gameReady: 2,
 	gamePlaying: 3,
@@ -282,10 +277,8 @@ var gameMusic = MusicRepository.nyanCat;
   *	to be inherited by all child objects, as well as default
   *	methods.
 **/
-function Drawable()
-{
-	this.init = function(x, y)
-	{
+function Drawable() {
+	this.init = function(x, y) {
 		// Default variables
 		this.x = x;
 		this.y = y;
@@ -293,26 +286,22 @@ function Drawable()
 	
 	this.speed = 0;
 	
-	this.update = function()
-	{
+	this.update = function() {
 	
 	};
 	
-	this.draw = function()
-	{
+	this.draw = function() {
 	
 	};
 }
 
 // Class for menu text
-function MenuText(text)
-{
+function MenuText(text) {
 	this.text = text;
 	this.textColor = "#000000";
 	
 	// Function to initialize menu text
-	this.init = function(x, y, image, textFont, textFontSize)
-	{
+	this.init = function(x, y, image, textFont, textFontSize) {
 		this.x = x;
 		this.y = y;
 		this.image = image; 
@@ -320,8 +309,7 @@ function MenuText(text)
 		this.textFontSize = textFontSize;
 	};
 	
-	this.draw = function()
-	{
+	this.draw = function() {
 		// Draw the text inside the button
 		// Get metrics of text in order to place it appropriately
 		var metrics = ctx.measureText(this.text);
@@ -338,8 +326,7 @@ function MenuText(text)
 MenuText.prototype = new Drawable();
 
 // Class for menu image
-function MenuImage(image)
-{
+function MenuImage(image) {
 	this.image = image;
 	
 	this.width = this.image.width;
@@ -347,8 +334,7 @@ function MenuImage(image)
 	this.menuWidth;
 	
 	// Function to initialize menu text
-	this.init = function(x, y, image, textFont, textFontSize)
-	{
+	this.init = function(x, y, image, textFont, textFontSize) {
 		this.x = x;
 		this.y = y;
 		this.menuWidth = image.width;
@@ -359,29 +345,25 @@ function MenuImage(image)
 	};
 	
 	
-	this.update = function()
-	{
+	this.update = function() {
 	
 	};
 	
-	this.draw = function()
-	{
+	this.draw = function() {
 		// Draw the image
 		ctx.drawImage(this.image, this.x, this.y, this.image.width, this.image.height);
 	};
 }
 
 // Class for menu animations
-function MenuAnimation(animation)
-{
+function MenuAnimation(animation) {
 	this.animation = animation;
 	this.x;
 	this.y;
 	
 	
 	// Function to initialize menu animation
-	this.init = function(x, y, image, textFont, textFontSize)
-	{
+	this.init = function(x, y, image, textFont, textFontSize) {
 		this.menuWidth = image.width;
 		
 		this.x = x;
@@ -395,13 +377,11 @@ function MenuAnimation(animation)
 		this.animation.drawRectangle.y = this.y;
 	};
 	
-	this.update = function()
-	{
+	this.update = function() {
 		this.animation.update();
 	}
 	
-	this.draw = function()
-	{
+	this.draw = function() {
 		this.animation.draw();
 	}
 	
@@ -410,8 +390,7 @@ function MenuAnimation(animation)
 
 
 // Class for menu buttons
-function MenuButton(text, gameStateChange)
-{
+function MenuButton(text, gameStateChange) {
 	this.width;
 	this.height;
 	
@@ -428,8 +407,7 @@ function MenuButton(text, gameStateChange)
 	this.gameStateChange = gameStateChange;
 	
 	// Function to initialize button
-	this.init = function(x, y, image, textFont, textFontSize)
-	{
+	this.init = function(x, y, image, textFont, textFontSize) {
 		this.x = x;
 		this.y = y;
 		this.image = image; 
@@ -437,8 +415,7 @@ function MenuButton(text, gameStateChange)
 		this.textFontSize = textFontSize;
 	};
 	
-	this.update = function()
-	{
+	this.update = function() {
 		// Check if mouse is hovering over button
 		if (mouse.x >= this.x &&
 			mouse.y >= this.y &&
@@ -462,8 +439,7 @@ function MenuButton(text, gameStateChange)
 		}
 	};
 	
-	this.draw = function()
-	{
+	this.draw = function() {
 		// Draw the button
 		ctx.drawImage(this.image, this.sourceX, this.sourceY, 
 					  this.width, this.height, 
@@ -487,8 +463,7 @@ function MenuButton(text, gameStateChange)
 MenuButton.prototype = new Drawable();
 
 // Class for menus (Used for main menu & game over menu)
-function Menu(buttonImage, textFont, textFontSize)
-{
+function Menu(buttonImage, textFont, textFontSize) {
 	// Array containing the buttons of the menu
 	this.buttons = [];
 	
@@ -544,14 +519,11 @@ function Menu(buttonImage, textFont, textFontSize)
 			this.buttons[i].draw();
 		}
 	};
-
-	
 	
 }
 
 // Class for object holding the score
-function Score(image, textFont, fontSize)
-{
+function Score(image, textFont, fontSize) {
 	this.image = image;
 	
 	this.textFont = textFont;
@@ -587,8 +559,7 @@ function Score(image, textFont, fontSize)
 
 
 // Class for the player
-function Player(animation)
-{
+function Player(animation) {
 	this.animation = animation;
 	
 	this.x;
@@ -613,8 +584,7 @@ function Player(animation)
 	this.animation; 
 	
 	// Intitialization function
-	this.init = function()
-	{
+	this.init = function() {
 		this.x = this.width;
 		this.y = canvasHeight / 2 - (this.height / 2);
 		
@@ -629,8 +599,7 @@ function Player(animation)
 	};
 	
 	// Player Update
-	this.update = function()
-	{
+	this.update = function() {
 		// Keep position of the animation on the player
 		this.animation.drawRectangle.x = this.x;
 		this.animation.drawRectangle.y = this.y;
@@ -638,11 +607,9 @@ function Player(animation)
 		// Update the animation
 		this.animation.update();
 		
-		if(this.active)
-		{
+		if(this.active) {
 			// Spacebar : Jumping (don't jump if position is above canvas)
-			if (keys[32] && !previousSpaceState && this.y >= 0 - this.height) 
-			{
+			if (keys[32] && !previousSpaceState && this.y >= 0 - this.height) {
 				this.velY = -5 * this.jumpForce * 0.8;
 				this.animation.reset();
 				playRepeatedly(SoundRepository.flap);
@@ -656,33 +623,27 @@ function Player(animation)
 			
 			// Change image source according to velocity
 			/*
-			if (this.velY > 1)
-			{
+			if (this.velY > 1) {
 				this.sourceY = this.height;
 			}
-			else
-			{
+			else {
 				this.sourceY = 0;
 			}
 			*/
 			
 			// Condition to ensure fall speed never exceeds cap
-			if (this.velY >= yVelocityCap)
-			{
+			if (this.velY >= yVelocityCap) {
 				this.velY = yVelocityCap;
 			}
 			
 			// Check for collision with floor
-			if (this.y + this.height >= canvasHeight - floorHeight)
-			{
+			if (this.y + this.height >= canvasHeight - floorHeight) {
 				this.active = false;
 			}
 		}
-		else
-		{
+		else {
 			// If player isn't active, and hasn't exploded yet
-			if (!this.exploded)
-			{
+			if (!this.exploded) {
 				// Add an explosion animation at the player's position
 				this.exploded = true;
 				game.animations.push(new Animation(ImageRepository.explosion,
@@ -693,8 +654,7 @@ function Player(animation)
 	};
 	
 	// Player Draw
-	this.draw = function()
-	{
+	this.draw = function() {
 		this.animation.draw();
 	};
 	
@@ -705,8 +665,7 @@ Player.prototype = new Drawable();
 
 
 // Class for rectangles
-function Rectangle(x, y, width, height)
-{
+function Rectangle(x, y, width, height) {
 	this.x = x;
 	this.y = y;
 	this.width = width;
@@ -724,8 +683,7 @@ function Rectangle(x, y, width, height)
 	this.center = new Vector2(this.x + (this.width / 2), this.y + (this.height / 2));
 	
 	// Update the top, bottom, left, right & center position
-	this.update = function()
-	{
+	this.update = function() {
 		this.top = this.y;
 		this.bottom = this.y + this.height;
 		this.left = this.x;
@@ -738,8 +696,7 @@ function Rectangle(x, y, width, height)
 }
 
 // Simple class for holding x & y values 
-function Vector2(x, y)
-{
+function Vector2(x, y) {
 	this.x = x;
 	this.y = y;
 }
@@ -754,8 +711,7 @@ function Vector2(x, y)
 /  bool repeating: Whether the animation should repeat or not
 /  bool moving: Whether the animation should scroll with the game or not
 */
-function Animation(image, location, rows, framesPerRow, animationSpeed, repeating, moving)
-{
+function Animation(image, location, rows, framesPerRow, animationSpeed, repeating, moving) {
 	// The image used by the animation
 	this.image = image;
 	
@@ -801,14 +757,10 @@ function Animation(image, location, rows, framesPerRow, animationSpeed, repeatin
 	this.playing = true;
 	
 	//** ANIMATION MAIN UPDATE FUNCTION **//
-	this.update = function()
-	{	
-		if (this.moving)
-		{
+	this.update = function() {	
+		if (this.moving) {
 			this.drawRectangle.x -= gameSpeed * 0.3;
-		}
-		if (this.playing)
-		{
+		} if (this.playing) {
 			// Returns true if the current frame is the last one
 			// TODO: return the current frame num instead
 			return this.animate();
@@ -816,25 +768,21 @@ function Animation(image, location, rows, framesPerRow, animationSpeed, repeatin
 	};
 	
 	// Update the animation's frame
-	this.animate = function()
-	{
+	this.animate = function() {
 		this.clockTicks+= this.tickSpeed;
 		
 		// If clock ticks has reached the max amount, time to do something
-		if (this.clockTicks >= this.frameClockTicks)
-		{
+		if (this.clockTicks >= this.frameClockTicks) {
 			// Reset the clock ticks
 			this.clockTicks = 0;
 		
 			// Change the frame to next one now, only if frames amount is not 2 (due to glitch if only 2 frames)
-			if (this.framesAmount != 2)
-			{
+			if (this.framesAmount != 2) {
 				this.currentFrame++;
 			}
 			
 			// Max amount of frames not yet reached
-			if (this.currentFrame < this.framesAmount)
-			{
+			if (this.currentFrame < this.framesAmount) {
 				// Adjust the source rectangle's position
 				this.sourceRectangle.x = (this.currentFrame % this.framesPerRow) * this.sourceRectangle.width;
 				this.sourceRectangle.y = Math.floor(this.currentFrame / this.framesPerRow) * this.sourceRectangle.height;
@@ -846,17 +794,14 @@ function Animation(image, location, rows, framesPerRow, animationSpeed, repeatin
 				}
 			}
 			// Max amount of frames reached
-			else
-			{
+			else {
 				// If the animation is non-repeating...
-				if (!this.repeating)
-				{
+				if (!this.repeating) {
 					// Set the explosion active property to false, ready to be disposed of
 					this.active = false;
 				}
 				// If it's repeating...
-				else
-				{
+				else {
 					// Reset the sourceRectangle x position & reset the frame amount
 					this.sourceRectangle.x = 0;
 					this.sourceRectangle.y = 0;
@@ -871,14 +816,12 @@ function Animation(image, location, rows, framesPerRow, animationSpeed, repeatin
 	};
 	
 	// Toggle whether the animation is playing or not
-	this.togglePlaying = function()
-	{
+	this.togglePlaying = function() {
 		this.playing = (this.playing) ? false : true;
 	};
 	
 	// Animation reset function
-	this.reset = function()
-	{
+	this.reset = function() {
 		this.sourceRectangle.x = 0;
 		this.sourceRectangle.y = 0;
 		this.clockTicks = 0;
@@ -886,8 +829,7 @@ function Animation(image, location, rows, framesPerRow, animationSpeed, repeatin
 	};
 	
 	//** ANIMATION MAIN DRAW FUNCTION **//
-	this.draw = function()
-	{
+	this.draw = function() {
 		ctx.drawImage(this.image, this.sourceRectangle.x, this.sourceRectangle.y,
 					  this.sourceRectangle.width, this.sourceRectangle.height,
 					  this.drawRectangle.x, this.drawRectangle.y,
@@ -897,8 +839,7 @@ function Animation(image, location, rows, framesPerRow, animationSpeed, repeatin
 
 
 // Obstacle class
-function Obstacle(x, speed, image)
-{
+function Obstacle(x, speed, image) {
 	this.x = x;
 	
 	this.image = image;
@@ -909,16 +850,14 @@ function Obstacle(x, speed, image)
 
 	this.passed = false;
 	
-	this.update = function()
-	{
+	this.update = function() {
 		this.x -= speed;
 		this.topObstacle.x = this.x;
 		this.bottomObstacle.x = this.x;
 	};
 	
 	// Function that generates the top and bottom parts of obstacle
-	this.generate = function()
-	{
+	this.generate = function() {
 		// Get the point where the space start
 		this.spaceStart = getRandomInt(0 + obstacleEndHeight, canvasHeight - floorHeight - obstacleSpacing - obstacleEndHeight);
 		
@@ -933,8 +872,7 @@ function Obstacle(x, speed, image)
 		this.bottomObstacle = new obstacleHalf(this.x, this.secondObsY, this.width, this.secondObsHeight);
 	};
 	
-	this.draw = function()
-	{
+	this.draw = function() {
 		// Object used to find which part to draw
 		var partToDraw = {
 			x : this.x,
@@ -951,8 +889,7 @@ function Obstacle(x, speed, image)
 		partToDraw.y -= partToDraw.height;
 		
 		// Draw top obstacle
-		while (partToDraw.y > -partToDraw.height)
-		{
+		while (partToDraw.y > -partToDraw.height) {
 			ctx.drawImage(ImageRepository.obstacle, partToDraw.x, partToDraw.y, partToDraw.width, partToDraw.height);
 			partToDraw.y -= partToDraw.height;
 		}
@@ -974,8 +911,7 @@ function Obstacle(x, speed, image)
 		partToDraw.y += partToDraw.height;
 		
 		// Draw low obstacle
-		while (partToDraw.y < canvasHeight)
-		{
+		while (partToDraw.y < canvasHeight) {
 			ctx.drawImage(ImageRepository.obstacle, partToDraw.x, partToDraw.y, partToDraw.width, partToDraw.height);
 			partToDraw.y += partToDraw.height;
 		}
@@ -986,8 +922,7 @@ function Obstacle(x, speed, image)
 }
 
 // Obstacle half class
-function obstacleHalf(x, y, width, height)
-{
+function obstacleHalf(x, y, width, height) {
 	this.x = x;
 	this.y = y;
 	
@@ -996,13 +931,11 @@ function obstacleHalf(x, y, width, height)
 }
 
 // Floor class
-function Floor(width, speed)
-{
+function Floor(width, speed) {
 	this.height = ImageRepository.floor.height;
 	this.width = ImageRepository.floor.width;
 	
-	this.update = function()
-	{
+	this.update = function() {
 		this.x -= speed;
 		if(this.x <= -this.width)
 		{
@@ -1010,8 +943,7 @@ function Floor(width, speed)
 		}
 	};
 	
-	this.draw = function()
-	{
+	this.draw = function() {
 		// Draw enough floors to fit the entire screen
 		ctx.drawImage(ImageRepository.floor,this.x, this.y, this.width, this.height);
 		ctx.drawImage(ImageRepository.floor,this.x + this.width, this.y, this.width, this.height);
@@ -1024,15 +956,12 @@ function Floor(width, speed)
 // Make Floor inherit from Drawable
 Floor.prototype = new Drawable();
 
-function Background(image)
-{
-
+function Background(image) {
 	this.image = image;
 	this.height = canvasHeight;
 	this.width = canvasWidth;
 	
-	this.update = function()
-	{
+	this.update = function() {
 		this.x -= gameSpeed * 0.5;
 		if(this.x <= 0)
 		{
@@ -1040,8 +969,7 @@ function Background(image)
 		}
 	};
 	
-	this.draw = function()
-	{
+	this.draw = function() {
 		ctx.drawImage(this.image,this.x, this.y, this.width, this.height);
 		ctx.drawImage(this.image,this.x - this.width, this.y, this.width, this.height);
 	};
@@ -1052,8 +980,7 @@ Background.prototype = new Drawable();
 
 
 // Main game class
-function Game()
-{
+function Game() {
 	// The player
 	this.player;
 	
@@ -1082,8 +1009,7 @@ function Game()
 	this.score;
 	
 	//*** GAME INITIALIZING FUNCTION ***//
-	this.Initialize = function()
-	{
+	this.Initialize = function() {
 		// Instantiate game objects
 		
 		// Player
@@ -1097,14 +1023,12 @@ function Game()
 		this.gameState = GameStates.titleScreen;
 		
 		// Add event listeners for keyboard
-		document.body.addEventListener("keydown", function(e) 
-		{
+		document.body.addEventListener("keydown", function(e) {
 			// When a key is pressed down, store in keys array with true value
 			keys[e.keyCode] = true;
 		});
 		
-		document.body.addEventListener("keyup", function(e) 
-		{
+		document.body.addEventListener("keyup", function(e) {
 			// When a key is let go of, its value becomes false
 			keys[e.keyCode] = false;
 		});
@@ -1155,11 +1079,9 @@ function Game()
 	};
 	
 	// Obstacles initializing method
-	this.initializeObstacles = function()
-	{
+	this.initializeObstacles = function() {
 		// Add obstacles
-		for (var i = 0; i < obstaclesAmount; i++)
-		{
+		for (var i = 0; i < obstaclesAmount; i++) {
 			// Only initialize the first obstacle at obstacleStartPoint 
 			// Others go farther away depending on amount already placed
 			var obsStartPoint = (!i) ? obstacleStartPoint : obstacleStartPoint + (obstaclesDistance * i);
@@ -1168,28 +1090,23 @@ function Game()
 	};
 	
 	// Function to update obstacles
-	this.updateObstacles = function()
-	{
+	this.updateObstacles = function() {
 		// Update obstacles
-		for (var i = 0; i < this.obstacles.length; i++)
-		{
+		for (var i = 0; i < this.obstacles.length; i++) {
 			// Update the obstacle
 			this.obstacles[i].update();
 			
 			// If an obstacle was passed by the player
-			if(this.obstacles[i].x < this.player.x && !this.obstacles[i].passed && this.player.active)
-			{
+			if(this.obstacles[i].x < this.player.x && !this.obstacles[i].passed && this.player.active) {
 				this.obstacles[i].passed = true;
-				if (++score > bestScore)
-				{
+				if (++score > bestScore) {
 					bestScore++;
 				}
 				
 			}
 			
 			// If obstacle has left the screen, regenerate & relocate
-			if(this.obstacles[i].x + (this.obstacles[i].width) < 0)
-			{
+			if(this.obstacles[i].x + (this.obstacles[i].width) < 0) {
 				this.obstacles[i].generate();
 				this.obstacles[i].x = obstaclesRespawnPoint;
 				this.obstacles[i].passed = false;
@@ -1198,8 +1115,7 @@ function Game()
 			// Check for collisions between player & obstacles
 			if (checkCollision(this.player, this.obstacles[i].topObstacle) ||
 				checkCollision(this.player, this.obstacles[i].bottomObstacle)
-				)
-			{					   
+				) {					   
 				this.player.active = false;
 			}
 		}
@@ -1207,32 +1123,27 @@ function Game()
 	
 	
 	//*** GAME UPDATE FUNCTION ***//
-	this.update = function()
-	{
+	this.update = function() {
 		// Update different things based on the current game state
-		if (this.gameState == GameStates.titleScreen)
-		{
+		if (this.gameState == GameStates.titleScreen) {
 			this.mainMenu.update();
 		}
 		
 		// PLAYER HAS DIED - GAME OVER
-		if (this.gameState == GameStates.gameOver)
-		{
+		if (this.gameState == GameStates.gameOver) {
 			this.gameOverScreen.update();
 			this.updateObstacles();
 			this.floor.update();
 			this.background.update();
 			
 			// Reset game when 'E' key is pressed
-			if (keys[69])
-			{
+			if (keys[69]) {
 				this.gameState = GameStates.reset;
 			}
 		}
 		
 		// GAME IS READY TO PLAY, PLAYER HAS TO HIT SPACEBAR TO START
-		if (this.gameState == GameStates.gameReady)
-		{
+		if (this.gameState == GameStates.gameReady) {
 			// Start music, only if now already playing
 			//playIfNotPlaying(gameMusic);
 			
@@ -1243,22 +1154,18 @@ function Game()
 			this.gameReady.update();
 			
 			// Update the player animation, but not the player itself
-			if (this.player.animation.update())
-			{
+			if (this.player.animation.update()) {
 				playRepeatedly(SoundRepository.flap);					
 			}
 			
-			if (keys[32] && !previousSpaceState)
-			{
+			if (keys[32] && !previousSpaceState) {
 				this.gameState = GameStates.gamePlaying;
 			}
 		}
 		
 		// GAME IS CURRENTY BEING PLAYED
-		if (this.gameState == GameStates.gamePlaying)
-		{
-			if(!this.player.active)
-			{
+		if (this.gameState == GameStates.gamePlaying) {
+			if(!this.player.active) {
 				// Play explosion sound effect
 				playRepeatedly(SoundRepository.explosion1);
 				
@@ -1282,8 +1189,7 @@ function Game()
 		}
 		
 		// Reset game state
-		if (this.gameState == GameStates.reset)
-		{
+		if (this.gameState == GameStates.reset) {
 			score = 0;
 			this.player.init();
 			this.initializeObstacles();
@@ -1291,11 +1197,9 @@ function Game()
 		}
 		
 		// Update animations
-		for(var i = 0; i < this.animations.length; i++)
-		{
+		for(var i = 0; i < this.animations.length; i++) {
 			this.animations[i].update();
-			if (!this.animations[i].active)
-			{
+			if (!this.animations[i].active) {
 				this.animations.splice(i, 1);
 			}
 		}
@@ -1309,8 +1213,7 @@ function Game()
 	};
 	
 	//*** GAME DRAW FUNCTION ***//
-	this.draw = function()
-	{
+	this.draw = function() {
 		// Draw different things based on the current game state
 		
 		// Clear previous screen
@@ -1323,30 +1226,25 @@ function Game()
 		this.background.draw();
 		
 		// Draw obstacles
-		for (var i = 0; i < this.obstacles.length; i++)
-		{
+		for (var i = 0; i < this.obstacles.length; i++) {
 			this.obstacles[i].draw();
 		}
 		
-		if (this.gameState == GameStates.titleScreen)
-		{
+		if (this.gameState == GameStates.titleScreen) {
 			// Draw title screen main menu
 			this.mainMenu.draw();
 		}		
-		if (this.gameState == GameStates.gameOver)
-		{
+		if (this.gameState == GameStates.gameOver) {
 			// Draw title screen main menu
 			this.gameOverScreen.draw();
 		}		
 		
-		if (this.gameState == GameStates.gamePlaying || this.gameState == GameStates.gameReady)
-		{
+		if (this.gameState == GameStates.gamePlaying || this.gameState == GameStates.gameReady) {
 			// Draw character
 			this.player.draw();
 		}
 		
-		if (this.gameState == GameStates.gameReady)
-		{
+		if (this.gameState == GameStates.gameReady) {
 			// Draw the gameReady screen
 			this.gameReady.draw();
 		}
@@ -1355,14 +1253,12 @@ function Game()
 		this.floor.draw();
 		
 		// Draw animations
-		for(var i = 0; i < this.animations.length; i++)
-		{
+		for(var i = 0; i < this.animations.length; i++) {
 			this.animations[i].draw();
 		}
 		
 		// Write current score if current gameState isn't the title screen
-		if (this.gameState != GameStates.titleScreen)
-		{
+		if (this.gameState != GameStates.titleScreen) {
 			this.score.draw();
 		}		
 	};
@@ -1370,11 +1266,12 @@ function Game()
 	
 }
 
-//*** FUNCTIONS ***//
+// 
+// Functions
+// 
 
 // Main game function
-function main()
-{
+function main() {
 	game.update();
 	game.draw();
 	
@@ -1387,8 +1284,7 @@ function getRandomInt (min, max) {
 }
 
 // Collision check function
-function checkCollision(shapeA, shapeB)
-{
+function checkCollision(shapeA, shapeB) {
 	// Get the vectors to compare
 	// Vector X : Horizontal distance between center of shapeA and center of shapeB
 	// Vector Y : Vertical distance between center of shapeA and center of shapeB
@@ -1408,19 +1304,19 @@ function checkCollision(shapeA, shapeB)
 	
 }
 
-//*** CONTROLS HANDLING ***//
+// 
+// Controls handling
+// 
 
 // Mouse object
-var mouse = 
-{
+var mouse = {
 	width: 1,
 	height: 1,
 	down: false
 };
 
 // Gets mouse position inside canvas
-function getMousePos(evt) 
-{
+function getMousePos(evt) {
 	var rect = canvas.getBoundingClientRect();
 	return {
           x: evt.clientX - rect.left,
@@ -1429,19 +1325,16 @@ function getMousePos(evt)
 }
 
 // Event listeners to get the current mouse state
-canvas.addEventListener('mousemove', function(evt) 
-{
+canvas.addEventListener('mousemove', function(evt) {
 	var position = getMousePos(evt);
 	mouse.x = position.x;
 	mouse.y = position.y;
 }, false);
   
-canvas.addEventListener('mousedown', function(evt)
-{
+canvas.addEventListener('mousedown', function(evt) {
 	mouse.down = true;
 }, false);
   
-canvas.addEventListener('mouseup', function(evt)
-{
+canvas.addEventListener('mouseup', function(evt) {
 	mouse.down = false;
 }, false);
