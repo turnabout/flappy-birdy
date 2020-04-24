@@ -102,16 +102,48 @@ var gravity = 1;
 // Vertical falling speed cap
 var yVelocityCap = 15;
 
-// Speed at which game plays
-var gameSpeed = 15;
-var floorSpeed = gameSpeed;
+/**
+ * Enumeration of all possible difficulty levels.
+ * @type {{EASY: number, HARD: number, NORMAL: number}}
+ */
+var DIFFICULTY = {
+	EASY: 0,
+	NORMAL: 1,
+	HARD: 2
+};
 
-// Defines distance between obstacles
-var obstaclesDistance = (gameSpeed * 100) / 2 + 5;
+/**
+ * All possible difficulty settings
+ * @type {({gameSpeed: number, obstacleSpacing: number, obstaclesDistance: number})[]}
+ */
+var DIFFICULTY_SETTINGS = [
+	{
+		gameSpeed: 7,                      // Speed at which game plays
+		obstaclesDistance: (1800 / 2) + 5, // Defines distance between obstacles
+		obstacleSpacing: 180               // Defines space between top & bottom obstacles
+	},
+	{
+		gameSpeed: 15,
+		obstaclesDistance: (1500 / 2) + 5,
+		obstacleSpacing: 150
+	},
+	{
+		gameSpeed: 20,
+		obstaclesDistance: (2000 / 2) + 5,
+		obstacleSpacing: 140
+	}
+];
+
+// Set difficulty settings
+var activeDifficulty = DIFFICULTY.EASY;
+var activeDifficultySetting = DIFFICULTY_SETTINGS[activeDifficulty];
+
+var gameSpeed = activeDifficultySetting.gameSpeed;
+var obstaclesDistance = activeDifficultySetting.obstaclesDistance;
+var obstacleSpacing = activeDifficultySetting.obstacleSpacing;
 
 // Obstacles related variables
-// Defines space between top & bottom obstacles
-var obstacleSpacing = 150;
+
 
 // Defines how high the ground is from the bottom of screen
 var floorHeight = 62;
